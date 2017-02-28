@@ -98,16 +98,26 @@ services:
     - postgres:postgres
     env_file: .env
   generate-vectortiles:
-    image: "openmaptiles/generate-vectortiles:0.1"
+    image: "tnris/tilestache" # 52.55 13.28 52.46 13.51
+    command:  "bash -c 'python ./application.wsgi && tilestache-seed.py --config /var/tilestache/tilestache-cfg-rendered.cfg --layer playground_point --bbox 55 6 48 16 --output-directory /export --extension=geojson 8'"
     volumes:
-    - ./data:/export
-    - ./build/openmaptiles.tm2source:/tm2source
+      - ./tilestache.cfg:/var/tilestache/tilestache.cfg:ro
+      - ./data:/export
     links:
     - postgres:postgres
     env_file: .env
     environment:
       #BBOX: "8.25,46.97,9.58,47.52"
-      #BBOX: "5.97,45.75,10.7,47.72"
-      BBOX: ${BBOX}
-      MIN_ZOOM: ${MIN_ZOOM}
-      MAX_ZOOM: ${MAX_ZOOM}
+      BBOX: "9.84 53.4 10 53.6"
+      #BBOX: ${BBOX}
+      MIN_ZOOM: 1 #${MIN_ZOOM}
+      MAX_ZOOM: 4 #${MAX_ZOOM}
+  tilestash:
+    image: "tnris/tilestache"
+    volumes:
+      - ./tilestache.cfg:/var/tilestache/tilestache.cfg:ro
+    links:
+    - postgres:postgres
+    env_file: .env
+    ports:
+      - "8080:8080"

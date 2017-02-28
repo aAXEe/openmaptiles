@@ -1,0 +1,35 @@
+tables:
+  # etldoc: imposm3 -> osm_aeroway_polygon
+  playground_polygon:
+    type: polygon
+    fields:
+    - name: osm_id
+      type: id
+    - name: geometry
+      type: geometry
+    - name: playground
+      key: playground
+      type: string
+    - name: name
+      key: name
+      type: string
+    mapping:
+      leisure:
+      - playground
+
+  playground_point:
+    type: point
+    fields:
+    - name: osm_id
+      type: id
+    - name: geometry
+      type: geometry
+    - name: playground
+      key: playground
+      type: string
+    - name: name
+      key: name
+      type: string
+    mapping:
+      leisure:
+      - playground
